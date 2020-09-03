@@ -105,13 +105,13 @@ class ParticleFiler():
         self.initialize_global()
 
         # these topics are for visualization
-        self.pose_pub      = rospy.Publisher("/pf/viz/inferred_pose", PoseStamped, queue_size = 1)
-        self.particle_pub  = rospy.Publisher("/pf/viz/particles", PoseArray, queue_size = 1)
-        self.pub_fake_scan = rospy.Publisher("/pf/viz/fake_scan", LaserScan, queue_size = 1)
-        self.rect_pub      = rospy.Publisher("/pf/viz/poly1", PolygonStamped, queue_size = 1)
+        self.pose_pub      = rospy.Publisher("pf/viz/inferred_pose", PoseStamped, queue_size = 1)
+        self.particle_pub  = rospy.Publisher("pf/viz/particles", PoseArray, queue_size = 1)
+        self.pub_fake_scan = rospy.Publisher("pf/viz/fake_scan", LaserScan, queue_size = 1)
+        self.rect_pub      = rospy.Publisher("pf/viz/poly1", PolygonStamped, queue_size = 1)
 
         if self.PUBLISH_ODOM:
-            self.odom_pub = rospy.Publisher("/pf/pose/odom", Odometry, queue_size = 1)
+            self.odom_pub = rospy.Publisher("pf/pose/odom", Odometry, queue_size = 1)
 
         # these topics are for coordinate space things
         self.pub_tf = tf.TransformBroadcaster()
@@ -119,8 +119,8 @@ class ParticleFiler():
         # these topics are to receive data from the racecar
         self.laser_sub = rospy.Subscriber(rospy.get_param("~scan_topic", "/scan"), LaserScan, self.lidarCB, queue_size=1)
         self.odom_sub  = rospy.Subscriber(rospy.get_param("~odometry_topic", "/odom"), Odometry, self.odomCB, queue_size=1)
-        self.pose_sub  = rospy.Subscriber("/initialpose", PoseWithCovarianceStamped, self.clicked_pose, queue_size=1)
-        self.click_sub = rospy.Subscriber("/clicked_point", PointStamped, self.clicked_pose, queue_size=1)
+        self.pose_sub  = rospy.Subscriber("initialpose", PoseWithCovarianceStamped, self.clicked_pose, queue_size=1)
+        self.click_sub = rospy.Subscriber("clicked_point", PointStamped, self.clicked_pose, queue_size=1)
 
         print "Finished initializing, waiting on messages..."
 
@@ -171,12 +171,12 @@ class ParticleFiler():
 
         # this may cause issues with the TF tree. If so, see the below code.
         self.pub_tf.sendTransform((pose[0],pose[1],0),tf.transformations.quaternion_from_euler(0, 0, pose[2]), 
-               stamp , "/laser", "/map")
+               stamp , "laser_link", "map")
 
         # also publish odometry to facilitate getting the localization pose
         if self.PUBLISH_ODOM:
             odom = Odometry()
-            odom.header = Utils.make_header("/map", stamp)
+            odom.header = Utils.make_header("map", stamp)
             odom.pose.pose.position.x = pose[0]
             odom.pose.pose.position.y = pose[1]
             odom.pose.pose.orientation = Utils.angle_to_quaternion(pose[2])
@@ -203,7 +203,7 @@ class ParticleFiler():
         map_laser_pos -= np.dot(tf.transformations.quaternion_matrix(tf.transformations.unit_vector(map_laser_rotation))[:3,:3], laser_base_link_offset).T
 
         # Publish transform
-        self.pub_tf.sendTransform(map_laser_pos, map_laser_rotation, stamp , "/base_link", "/map")
+        self.pub_tf.sendTransform(map_laser_pos, map_laser_rotation, stamp , "base_link", "map")
 
     def visualize(self):
         '''

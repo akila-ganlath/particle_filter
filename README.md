@@ -21,10 +21,10 @@ For [RangeLibc](https://github.com/kctess5/range_libc):
 ```
 sudo pip install cython
 git clone http://github.com/kctess5/range_libc
-cd range_libc/pywrappers
-# on VM
+cd range_libc/pywrapper
+# offboard
 ./compile.sh
-# on car - compiles GPU ray casting methods
+# onboard car - compiles GPU ray casting methods
 ./compile_with_cuda.sh
 ```
 
