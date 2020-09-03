@@ -111,7 +111,7 @@ class ParticleFiler():
         self.rect_pub      = rospy.Publisher("pf/viz/poly1", PolygonStamped, queue_size = 1)
 
         if self.PUBLISH_ODOM:
-            self.odom_pub = rospy.Publisher("pf/pose/odom", Odometry, queue_size = 1)
+            self.odom_pub = rospy.Publisher("pf/pose_estimate", Odometry, queue_size = 1)
 
         # these topics are for coordinate space things
         self.pub_tf = tf.TransformBroadcaster()
