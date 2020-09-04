@@ -177,6 +177,7 @@ class ParticleFiler():
         if self.PUBLISH_ODOM:
             odom = Odometry()
             odom.header = Utils.make_header("map", stamp)
+            odom.child_frame_id = 'laser_link'
             odom.pose.pose.position.x = pose[0]
             odom.pose.pose.position.y = pose[1]
             odom.pose.pose.orientation = Utils.angle_to_quaternion(pose[2])
