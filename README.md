@@ -1,8 +1,7 @@
 # Particle Filter Localization
 
-This code implements the MCL algorithm for the RACECAR. 
+This code implements the MCL algorithm for the e2e-testbed. 
 
-[![YouTube Demo](./media/thumb.jpg)](https://www.youtube.com/watch?v=-c_0hSjgLYw)
 
 For high efficiency in Python, it uses Numpy arrays and [RangeLibc](https://github.com/kctess5/range_libc) for fast 2D ray casting.
 
