@@ -33,6 +33,8 @@ VAR_REPEAT_ANGLES_EVAL_SENSOR = 2
 VAR_REPEAT_ANGLES_EVAL_SENSOR_ONE_SHOT = 3
 VAR_RADIAL_CDDT_OPTIMIZATIONS = 4
 
+TUNE = False
+
 class ParticleFiler():
     '''
     This class implements Monte Carlo Localization based on odometry and a laser scanner.
@@ -642,7 +644,7 @@ class ParticleFiler():
                 # this is for tracking particle filter speed
                 ips = 1.0 / (t2 - t1)
                 self.smoothing.append(ips)
-                if self.iters % 10 == 0:
+                if self.iters % 10 == 0 and TUNE:
                     print "iters per sec:", int(self.timer.fps()), " possible:", int(self.smoothing.mean())
 
                 self.visualize()
