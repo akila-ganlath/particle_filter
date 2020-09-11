@@ -119,7 +119,7 @@ class ParticleFiler():
         # these topics are to receive data from the racecar
         self.laser_sub = rospy.Subscriber(rospy.get_param("~scan_topic", "/scan"), LaserScan, self.lidarCB, queue_size=1)
         self.odom_sub  = rospy.Subscriber(rospy.get_param("~odometry_topic", "/odom"), Odometry, self.odomCB, queue_size=1)
-        self.pose_sub  = rospy.Subscriber("initialpose", PoseWithCovarianceStamped, self.clicked_pose, queue_size=1)
+        self.pose_sub  = rospy.Subscriber("pf/initialpose", PoseWithCovarianceStamped, self.clicked_pose, queue_size=1)
         self.click_sub = rospy.Subscriber("clicked_point", PointStamped, self.clicked_pose, queue_size=1)
 
         print "Finished initializing, waiting on messages..."
